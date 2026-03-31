@@ -1,0 +1,75 @@
+\documentclass[oneside,final,12pt,a4paper]{extreport}
+\renewcommand{\thetable}{\Roman{table}}\usepackage{hyperref}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[affil-it]{authblk}
+\usepackage[english]{babel}
+\usepackage[backend=biber,style=ieee,autocite=inline]{biblatex}
+\usepackage{blindtext}
+
+\usepackage{float}
+\usepackage{amsmath,amsfonts}
+\usepackage{url}
+\usepackage{titlesec}
+\usepackage{csquotes}
+\usepackage{longtable}
+\titleformat{\section}[hang]{\fontsize{20}{24}\selectfont\filcenter}{\Roman{section}}{1em}{}
+\titleformat{\subsection}[hang]{\itshape}{\Alph{subsection}.}{1em}{}[]
+\titleformat{\subsubsection}[runin]{\itshape}{\arabic{subsubsection})}{1em}{}[$:$]
+\titlespacing{\subsubsection}{1em}{1em}{1em}
+\titleformat{\paragraph}[runin]{\itshape}{\alph{paragraph})}{1em}{}[$:$\quad]
+\titlespacing{\paragraph}{2em}{1em}{1em}
+\usepackage{vmargin}
+\setpapersize{A4}
+\setmarginsrb{2.5cm}{2cm}{2cm}{2cm}{0pt}{10mm}{0pt}{13mm}
+\usepackage{setspace}
+\sloppy
+\setstretch{1.5}
+\usepackage{indentfirst}
+\usepackage{pgfplots}
+\parindent=1.25cm
+\usepackage{caption}
+\usepackage{subcaption}
+\DeclareCaptionLabelSeparator{figSep}{.\quad}
+\title{CRISP-DM Report: BiznesDengi}
+\author{Aleliya Turushkina, Arina Petuhova, Maksim Ilin, Ivan Ilyichev, Lev Permiakov}
+
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\section{Data Understanding}
+\subsection{Data Collection}
+
+The dataset was collected by parsing historical market data from the Moscow Exchange Information and Statistical Service (MOEX ISS) API. The data collection was implemented using the \texttt{apimoex} Python library, which is convenient for accessing MOEX market data endpoints. The collected data covers the period from \texttt{01.02.2010} to \texttt{01.02.2026} and includes daily trading records, historical dividend payments, candlestick data across multiple time intervals, and securities description for the predefined list of \textbf{249} most popular Russian stocks.
+
+\subsection{Dataset Description}
+The dataset is organized into four table types:
+
+\subsubsection{Market Candles Tables}
+These tables represent historical candlestick data aggregated across multiple time intervals for all securities and trading boards. The data is stored in a hierarchical folder structure, with separate subfolders for each interval: \texttt{10min}, \texttt{1hour}, \texttt{1day}, \texttt{1week}, \texttt{1month}, and \texttt{1quarter}. Within each interval folder, individual CSV files follow the naming pattern \texttt{\{ticker\}-\{interval\}.csv}. The CSV schema includes the candle start time (\texttt{begin}), the four standard price points (\texttt{open}, \texttt{high}, \texttt{low}, \texttt{close}), the total trading value in rubles (\texttt{value}), and the volume in lots (\texttt{volume}).
+
+\subsubsection{Dividends Table (\texttt{dividends.csv})}
+This table captures the historical dividend payments for securities in the dataset. Each record contains the ticker (\texttt{secid}), the international identifier (\texttt{isin}), the critical register closure date (\texttt{registryclosedate}), the dividend amount per share (\texttt{value}), and the currency of payment (\texttt{currencyid}).
+
+\subsubsection{Market History Table (\texttt{market\_history.csv})}
+This table contains daily trading records for all securities across all trading boards. Each row is uniquely identified by the composite key of ticker (\texttt{SECID}), trading board identifier (\texttt{BOARDID}), and trading date (\texttt{TRADEDATE}). The CSV schema includes opening price (\texttt{OPEN}), intraday peak (\texttt{HIGH}), intraday trough (\texttt{LOW}), and closing price (\texttt{CLOSE}), along with trading volume in lots (\texttt{VOLUME}) and total monetary value of all trades (\texttt{VALUE}). Additional metrics include the volume-weighted average price (\texttt{WAPRICE}), the number of individual transactions (\texttt{NUMTRADES}), the denomination currency (\texttt{CURRENCYID}), security's short name (\texttt{SHORTNAME}), official settlement closing price (\texttt{LEGALCLOSEPRICE}), trend closing price (\texttt{TRENDCLSPR}), market prices (\texttt{MARKETPRICE2}, \texttt{MARKETPRICE3}), admitted quote (\texttt{ADMITTEDQUOTE}), associated trade values (\texttt{MP2VALTRD}, \texttt{MARKETPRICE3TRADESVALUE}, \texttt{ADMITTEDVALUE}), weighted average value (\texttt{WAVAL}), trading session identifier (\texttt{TRADINGSESSION}), and trade session date (\texttt{TRADE\_SESSION\_DATE}).
+
+\subsubsection{Security Descriptions Table (\texttt{security\_descriptions.csv})}
+This table acts as a static reference, containing one row per ticker with unchanging metadata about each security. Key columns include the ticker (\texttt{SECID}), the issuer's full name (\texttt{NAME}), the trading short name (\texttt{SHORTNAME}), the international identifier (\texttt{ISIN}), the state registration number (\texttt{REGNUMBER}), the nominal value (\texttt{FACEVALUE}) in the specified unit (\texttt{FACEUNIT}), the total issue size (\texttt{ISSUESIZE}), the issue date (\texttt{ISSUEDATE}), the listing level (\texttt{LISTLEVEL}), and classification fields (\texttt{GROUP}, \texttt{TYPE}, \texttt{TYPENAME}). Additional metadata covers the emitter identifier (\texttt{EMITTER\_ID}), the registry date (\texttt{REGISTRY\_DATE}), trading session flags (\texttt{MORNINGSESSION}, \texttt{EVENINGSESSION}, \texttt{WEEKENDSESSION}), qualified investor status (\texttt{ISQUALIFIEDINVESTORS}, \texttt{QUALINVESTORGROUP}), high-risk flag (\texttt{HIGHRISK}), and depositary organization details (\texttt{DEPOSITARY\_ORG\_NAME}, \texttt{DEPOSITARYNOTETYPE}).
+
+\end{document}
