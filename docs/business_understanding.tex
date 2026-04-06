@@ -1,0 +1,203 @@
+\documentclass[oneside,final,12pt,a4paper]{extreport}
+\renewcommand{\thetable}{\Roman{table}}\usepackage{hyperref}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[affil-it]{authblk}
+\usepackage[english]{babel}
+\usepackage[backend=biber,style=ieee,autocite=inline]{biblatex}
+\usepackage{blindtext}
+
+\usepackage{float}
+\usepackage{amsmath,amsfonts}
+\usepackage{url}
+\usepackage{titlesec}
+\usepackage{csquotes}
+\usepackage{longtable}
+\titleformat{\section}[hang]{\fontsize{20}{24}\selectfont\filcenter}{\Roman{section}}{1em}{}
+\titleformat{\subsection}[hang]{\itshape}{\Alph{subsection}.}{1em}{}[]
+\titleformat{\subsubsection}[runin]{\itshape}{\arabic{subsubsection})}{1em}{}[$:$]
+\titlespacing{\subsubsection}{1em}{1em}{1em}
+\titleformat{\paragraph}[runin]{\itshape}{\alph{paragraph})}{1em}{}[$:$\quad]
+\titlespacing{\paragraph}{2em}{1em}{1em}
+\usepackage{vmargin}
+\setpapersize{A4}
+\setmarginsrb{2.5cm}{2cm}{2cm}{2cm}{0pt}{10mm}{0pt}{13mm}
+\usepackage{setspace}
+\sloppy
+\setstretch{1.5}
+\usepackage{indentfirst}
+\usepackage{pgfplots}
+\parindent=1.25cm
+\usepackage{caption}
+\usepackage{subcaption}
+\DeclareCaptionLabelSeparator{figSep}{.\quad}
+\title{CRISP-DM Report: BiznesDengi}
+\author{Aleliya Turushkina, Arina Petuhova, Maksim Ilin, Ivan Ilyichev, Lev Permiakov}
+
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\section{Business Understanding}
+\subsection{Determine Business Objectives}
+
+
+\subsubsection{Background}
+The customer is any person that wants to invest for short term (specifically, one year) in a stock market to accomplish savings goals (e.g., overtake inflation or increase deposit slightly yet reliably for a massive purchase in the future). However, risks should be considered properly, especially for such a short period of time.
+
+\subsubsection{Business Objective}
+The goal of the data mining project is to increase customer's deposit in stocks market in one year. However, risks should be considered, so stop-trading rule is set to be $-20\%$ of the deposit. 
+
+\subsubsection{Business Success Criteria}
+We will consider the investment successful if we get deposit increased for at least \textbf{$10\%$} (both obtained dividends and stocks price increased).
+
+
+\subsection{Situation Assessment}
+
+\subsubsection{Inventory of Resources}
+\begin{itemize}
+    \item People: We have project manager, business unit, business analyst, data scientist, and machine learning engineer people in the team, so the team is complete for rigorous study.
+    \item Data: we will parse 249 most popular Russian stocks, which are easily available from the Moscow Exchange Information and Statistical Service (MOEX ISS) API with different time frames ranging from minutes to months.
+    \item Computing resources: Colab and Kaggle are great choices for programming and modeling.
+    \item Software: Python with its numerous libraries and possibly Docker for deploying models.
+\end{itemize}
+
+\subsubsection{Requirements, Assumptions, and Constraints}
+\begin{itemize}
+    \item Requirements: historical stocks data for 16 years (15 years for modeling + 1 for evaluating real case scenario). The project duration is estimated to 2 months. Different time frames from minutes to months are needed for in-depth analysis of stocks behavior. The issue is that the Moscow Exchange requires people that are interested to profit from their data, need to contact the officials for negotiating commercial data use (\href{https://www.moex.com/a7156#:~:text=4.3.,by%20the%20Exchange%20and%20Users.}{User Agreement}) (\href{https://www.moex.com/a2193#:~:text=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%BD%D1%8B%D0%B9%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%20%D0%BA%20%D0%98%D0%A1%D0%A1,%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%BE%D0%BC%20%D0%BE%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%BB%D1%8F%D0%B5%D1%82%D1%81%D1%8F%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D1%82%D0%BE%D0%BA%D0%BE%D0%BB%D1%83%20http.&text=%D0%9D%D0%B0%20Python%20%D0%B8%20Visual%20Basic,NET.}{In Russian}).
+    \item Assumptions: the main assumption is that chosen historical period is enough to model profitable investment strategy. Hidden assumption could be that no serious crisis will happen during evaluation year, however this is addressed by that fact that some crises are already included in the data.
+    \item Constraints: the constraints are relatively short period of time and restriction to only 249 stocks.
+\end{itemize}
+
+\subsubsection{Risks and Contingencies}
+Since we have chosen already passed years for modeling and evaluation, no risks seem to happen. As for future work and investigations, crises of the stock market are main risks that have to be dealt with.
+
+\subsubsection{Terminology}
+\begin{itemize}
+    \item Stock - partial ownership in an organization.
+    \item Dividend - a sum of money paid by a company to its shareholders out of its profits.
+\end{itemize}
+
+\subsubsection{Costs and Benefits}
+The publicly available tariffs for sharing MOEX data are ranging from 15k to 25k RUB (source: \href{https://www.moex.com/ru/products/publicdata}{tariffs in Russian}), so let us assume we will use this for one month to get all the historical data. In opposite, the profit may be several percents of a customer deposit in a case of meeting the defined business success criteria. So, the benefits are expected to overtake costs significantly as business will grow.
+
+
+\subsection{Determine Data Mining Goals}
+
+\subsubsection{Data Mining Goals}
+The goals of the data mining are to develop both interpretable and non-interpretable models that choose a bunch of stocks, which will grow.
+
+\subsubsection{Data Mining Success Criteria}
+The success criteria are that models will select stocks divivded into several comparable by proportions groups, and the trend will coincide with the selected equity portfolio. (?)
+
+
+\subsection{Produce Project Plan}
+
+\subsubsection{Project Plan}
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{2.3cm}|p{1.6cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+\hline
+\textbf{Phase} & \textbf{Duration} & \textbf{Resources} & \textbf{Inputs} & \textbf{Outputs} & \textbf{Dependencies} \\
+\hline
+Business Understanding & 0.5 Weeks & Business Analyst, Project Manager, Business Unit & Business Requirements, Domain Knowledge & Business Objectives, Situation Assessment, Success Criteria, Project Plan & None \\
+\hline
+Data Understanding & 1.5 Weeks & Data Scientist, Business Analyst, Project Manager & MOEX Stocks Parsed Data & Initial Data Collection Report, Data Description Report, Data Exploration Report, Data Quality Report & Business Understanding \\
+\hline
+Data Preparation & 1.5 Weeks & Data Scientist, Business Analyst, Project Manager & Raw Data with Description, Exploration, Quality Descriptions & Data Set(s) with Description & Data Understanding \\
+\hline
+Modeling (Iteration 1) & 1 Week & ML Engineer, Project Manager & Prepared Dataset(s) & Baseline Models, Initial Predictions & Data Preparation \\
+\hline
+Evaluation (Iteration 1) & 1 Week & Data Scientist, Business Analyst, Business Unit, Project Manager & Baseline Model(s), Test Data & Model Performance Metrics, Business Objectives Alignment Report & Modeling (Iteration 1) \\
+\hline
+Modeling (Iteration 2) & 1 Week & ML Engineer, Project Manager & Evaluation Feedback, Refined Data & Improved Model(s), Hyperparameter Tuning Results & Evaluation (Iteration 1) \\
+\hline
+Evaluation (Iteration 2) & 1 Week & Data Scientist, Business Analyst, Business Unit, Project Manager & Improved Model(s) & Final Model Selection, Deployment Readiness Report & Modeling (Iteration 2) \\
+\hline
+Deployment & 0.5 Weeks & Data Scientist, ML Engineer, Business Analyst & Final Model, Infrastructure Tools & Production System, Monitoring Dashboard and Logs & Evaluation (Iteration 2) \\
+\hline
+\end{tabular}
+\caption{Project Plan}
+\label{tab:tab1}
+\end{table}
+
+Estimated total project duration is 7-8 weeks (note that 8th week, which is dedicated to deployment, is under discussion) as shown in Table \ref{tab:tab1}
+
+2 modeling iterations are planned as an optimal setup to try twice and analyze what went well and what did not.
+
+\paragraph{Risk Analysis and Schedule Dependencies}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{Risk} & \textbf{Action} & \textbf{Schedule Reflection} \\
+\hline
+Serious Data Quality Issues (Too Many Missing Values and/or Anomalies) & Prepare Data Imputation/Dropping Strategies  & Extends Data Preparation for 1 week  \\
+\hline
+Insufficient Expressiveness of Features & Collect More Data from Other Sources & Extends Modeling for 1 week and possibly Data Preparation for 1 week (Backtrack to Previous Stages if Needed) \\
+\hline
+Key People Unavailability & Documentation and involving specialists with similar background & Depends on situation, timeline extension for several weeks \\
+\hline
+Global Market Changes & Be Flexible and not Reactive to Changes, Understand Shifts First & Freezing the Project or Serious Timeline Extension \\
+\hline
+\end{tabular}
+\caption{Risk Analysis with Schedule Impact and Actions}
+\label{tab:tab2}
+\end{table}
+
+\par The timeline is presented in the Project Plan Table \ref{tab:tab1}. Data Preparation is the most risky phase for delays due to typical data quality and transformations challenges. This and other risks are detailed in the Table \ref{tab:tab2}
+
+\paragraph{Review Points}
+\par Review points are scheduled as follows:
+\begin{itemize}
+    \item \textbf{Review 1 (Week 0.5):} Business Understanding completion - verify match of data mining goals with business objectives before any work begins.
+    \item \textbf{Review 2 (Week 2):} Data Understanding completion - assess data quality. Decide whether to proceed or find additional data.
+    \item \textbf{Review 3 (Week 3.5):} Data Preparation completion - validate prepared dataset(s).
+    \item \textbf{Review 4 (Week 5.5):} Iteration 1 Evaluation - compare initial business objectives with the results. Go to Business Understanding if mismatch is found.
+    \item \textbf{Review 5 (Week 7.5):} Iteration 2 Evaluation - final model(s) selection and preparing for deployment.
+    \item \textbf{Review 6 (Week 8):} Deployment completion - monitoring model(s) behavior in real world. 
+\end{itemize}
+
+
+\subsubsection{Initial Assessment of Tools and Techniques}
+\par Python has a plenty of great libraries with maintenance, so problems with data processing or modeling tools absence are not likely. Docker is a good deployment software as practice shows.
+    \par Trial of simple models first (time series decomposition) seems relatively efficient and explainable from business perspective, and neural networks may enhance the quality of the final result.
+
+\section{Data Understanding}
+\subsection{Data Collection}
+
+The dataset was collected by parsing historical market data from the Moscow Exchange Information and Statistical Service (MOEX ISS) API. The data collection was implemented using the \texttt{apimoex} Python library, which is convenient for accessing MOEX market data endpoints. The collected data covers the period from \texttt{01.02.2010} to \texttt{01.02.2026} and includes daily trading records, historical dividend payments, candlestick data across multiple time intervals, and securities description for the predefined list of \textbf{249} most popular Russian stocks.
+
+\subsection{Dataset Description}
+The dataset is organized into four table types:
+
+\subsubsection{Market Candles Tables}
+These tables represent historical candlestick data aggregated across multiple time intervals for all securities and trading boards. The data is stored in a hierarchical folder structure, with separate subfolders for each interval: \texttt{10min}, \texttt{1hour}, \texttt{1day}, \texttt{1week}, \texttt{1month}, and \texttt{1quarter}. Within each interval folder, individual CSV files follow the naming pattern \texttt{\{ticker\}-\{interval\}.csv}. The CSV schema includes the candle start time (\texttt{begin}), the four standard price points (\texttt{open}, \texttt{high}, \texttt{low}, \texttt{close}), the total trading value in rubles (\texttt{value}), and the volume in lots (\texttt{volume}).
+
+\subsubsection{Dividends Table (\texttt{dividends.csv})}
+This table captures the historical dividend payments for securities in the dataset. Each record contains the ticker (\texttt{secid}), the international identifier (\texttt{isin}), the critical register closure date (\texttt{registryclosedate}), the dividend amount per share (\texttt{value}), and the currency of payment (\texttt{currencyid}).
+
+\subsubsection{Market History Table (\texttt{market\_history.csv})}
+This table contains daily trading records for all securities across all trading boards. Each row is uniquely identified by the composite key of ticker (\texttt{SECID}), trading board identifier (\texttt{BOARDID}), and trading date (\texttt{TRADEDATE}). The CSV schema includes opening price (\texttt{OPEN}), intraday peak (\texttt{HIGH}), intraday trough (\texttt{LOW}), and closing price (\texttt{CLOSE}), along with trading volume in lots (\texttt{VOLUME}) and total monetary value of all trades (\texttt{VALUE}). Additional metrics include the volume-weighted average price (\texttt{WAPRICE}), the number of individual transactions (\texttt{NUMTRADES}), the denomination currency (\texttt{CURRENCYID}), security's short name (\texttt{SHORTNAME}), official settlement closing price (\texttt{LEGALCLOSEPRICE}), trend closing price (\texttt{TRENDCLSPR}), market prices (\texttt{MARKETPRICE2}, \texttt{MARKETPRICE3}), admitted quote (\texttt{ADMITTEDQUOTE}), associated trade values (\texttt{MP2VALTRD}, \texttt{MARKETPRICE3TRADESVALUE}, \texttt{ADMITTEDVALUE}), weighted average value (\texttt{WAVAL}), trading session identifier (\texttt{TRADINGSESSION}), and trade session date (\texttt{TRADE\_SESSION\_DATE}).
+
+\subsubsection{Security Descriptions Table (\texttt{security\_descriptions.csv})}
+This table acts as a static reference, containing one row per ticker with unchanging metadata about each security. Key columns include the ticker (\texttt{SECID}), the issuer's full name (\texttt{NAME}), the trading short name (\texttt{SHORTNAME}), the international identifier (\texttt{ISIN}), the state registration number (\texttt{REGNUMBER}), the nominal value (\texttt{FACEVALUE}) in the specified unit (\texttt{FACEUNIT}), the total issue size (\texttt{ISSUESIZE}), the issue date (\texttt{ISSUEDATE}), the listing level (\texttt{LISTLEVEL}), and classification fields (\texttt{GROUP}, \texttt{TYPE}, \texttt{TYPENAME}). Additional metadata covers the emitter identifier (\texttt{EMITTER\_ID}), the registry date (\texttt{REGISTRY\_DATE}), trading session flags (\texttt{MORNINGSESSION}, \texttt{EVENINGSESSION}, \texttt{WEEKENDSESSION}), qualified investor status (\texttt{ISQUALIFIEDINVESTORS}, \texttt{QUALINVESTORGROUP}), high-risk flag (\texttt{HIGHRISK}), and depositary organization details (\texttt{DEPOSITARY\_ORG\_NAME}, \texttt{DEPOSITARYNOTETYPE}).
+
+\end{document}
