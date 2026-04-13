@@ -53,9 +53,18 @@
 \newpage
 
 \section{Data Understanding}
+\subsection{Data Selection}
+Before collecting any data, we decided which stocks, time periods, and tables to use based on the business goal:
+
+The dataset includes ordinary shares of the 249 most traded Russian companies on the Moscow Exchange. The number 249 comes from the Broad Market Index (IMOEX) plus the most liquid securities from the second and third trading levels, as defined by the Exchange. This number balances variety and data quality. Fewer stocks, such as the top 50 only, would limit choices and increase risk from relying on too few companies. More stocks, such as all 800 available, would include many rarely traded instruments with too many missing values and unreliable prices. We selected only ordinary shares because they give voting rights and dividends, which match our investment goal. We excluded preferred shares and depositary receipts to avoid differences in how dividends work and how often they are traded.
+
+The collected data covers 16 years, from 1 February 2010 to 1 February 2026. We chose this period because it includes different market situations: the 2014 sanctions, the 2020 pandemic crash, and the 2022 volatility. The last year (2025–2026) is kept aside for testing on unseen data. A shorter period would risk the model learning only one type of market condition. A longer period would include price behavior from before 2008 that no longer reflects today's market. Therefore, we excluded all data before 2010.
+
+We selected four types of tables. The Market Candles tables give price data at six intervals: 10 minutes, 1 hour, 1 day, 1 week, 1 month, and 1 quarter. Short intervals help us understand price changes within a day and choose good entry points. Longer intervals show clear trends over weeks and months. The Market History table provides daily open, high, low, close, and trading volume. This data is needed to calculate returns and losses over the one-year period. For both Market Candles and Market History, we included data from all trading modes because limiting to a single mode would exclude many trades and reduce data completeness. The Dividends table records past dividend payments per share, including the date when shareholders must be registered and the currency used. This allows us to calculate total return, not just price change. The Security Descriptions table gives fixed information about each stock, such as industry sector, listing level, and high-risk flags. This helps us filter stocks by company characteristics.
+
 \subsection{Data Collection}
 
-The dataset was collected by parsing historical market data from the Moscow Exchange Information and Statistical Service (MOEX ISS) API. The data collection was implemented using the \texttt{apimoex} Python library, which is convenient for accessing MOEX market data endpoints. The collected data covers the period from \texttt{01.02.2010} to \texttt{01.02.2026} and includes daily trading records, historical dividend payments, candlestick data across multiple time intervals, and securities description for the predefined list of \textbf{249} most popular Russian stocks.
+The dataset was collected by parsing historical market data from the Moscow Exchange Information and Statistical Service (MOEX ISS) API. The data collection was implemented using the \texttt{apimoex} Python library, which is convenient for accessing MOEX market data endpoints. The collected data covers the period from \texttt{01.02.2010} to \texttt{01.02.2026} and includes daily trading records, historical dividend payments, candlestick data across multiple time intervals, and securities description for the predefined list of 249 most popular Russian stocks.
 
 \subsection{Dataset Description}
 The dataset is organized into four table types:
