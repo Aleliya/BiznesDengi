@@ -57,13 +57,25 @@
 
 
 \subsubsection{Background}
-The customer is any person that wants to invest for short term (specifically, one year) in a stock market to accomplish savings goals (e.g., overtake inflation or increase deposit slightly yet reliably for a massive purchase in the future). However, risks should be considered properly, especially for such a short period of time.
+The project is initiated by an investment advisory business unit that is responsible for supporting retail clients in making stock market decisions. This unit defines business objectives, evaluates the usefulness of the results, and ensures alignment between analytical outcomes and real-world investment needs. Within the project, it acts as the business customer.
+
+The problem area addressed in this project is short-term investment decision support. Retail investors often lack data-driven tools for selecting stocks that balance return and risk within a limited investment horizon. Existing approaches are typically based on manual analysis or simple heuristics, which may not fully exploit historical market data and can lead to suboptimal investment decisions.
+
+The primary target user group consists of private investors with a six-month investment horizon, aiming to preserve and moderately increase their savings for future expenses. Secondary users include business analysts and investment specialists, who interpret model outputs and translate them into actionable recommendations.
+
+From a business perspective, users expect the project to identify stocks with growth potential, provide interpretable and transparent reasoning behind selections, and support risk-aware investment strategies. In particular, given the short investment horizon, the solution is expected to help manage downside risk while achieving stable returns.
 
 \subsubsection{Business Objective}
-The goal of the data mining project is to increase customer's deposit in stocks market in one year. However, risks should be considered, so stop-trading rule is set to be $-20\%$ of the deposit. 
+The objective of this project is to support short-term investment decision-making by identifying a portfolio of stocks that can provide positive returns over a six-month investment horizon. From a business perspective, the goal is to achieve a stable increase in the investor’s deposit while maintaining an acceptable level of risk.
+
+To make the objective measurable, the target return is set to at least \textbf{11.2\%} over the investment period. This value is motivated by the need to outperform inflation by a significant margin: the official inflation rate in Russia was 5.6\% in 2025 (\href{https://www.cbr.ru/eng/press/event/?id=28252#:~:text=Annual%20inflation%20equalled%205.6%25%20in,rate%20of%203%25%20on%20average.}{Bank of Russia}), and the project aims to achieve at least twice this level to ensure real growth of purchasing power.
+
+At the same time, risk management constraints are introduced: the maximum acceptable loss for an investment strategy is limited to \textbf{20\%} of the initial deposit. This threshold reflects a moderate risk tolerance for retail investors and is supported by observed drawdowns in comparable investment strategies. For example, the “Rational Profile” strategy demonstrates a historical drawdown of approximately 23.38\% (\href{https://gx2invest.ru/strategies/rational}{investment strategy description}), which justifies setting a conservative threshold slightly above this level.
+
+In addition, the solution is expected to provide interpretable recommendations that can be used by analysts and understood by end users. From a business value perspective, achieving these objectives allows investors to outperform inflation and traditional bank deposits, thereby increasing the attractiveness of stock market investments.
 
 \subsubsection{Business Success Criteria}
-We will consider the investment successful if we get deposit increased for at least \textbf{$10\%$} (both obtained dividends and stocks price increased).
+The project will be considered successful if the proposed investment strategy achieves a return of at least \textbf{11.2\%} over the six-month horizon while not exceeding the maximum acceptable loss of \textbf{20\%}, as defined in the business objective.
 
 
 \subsection{Situation Assessment}
@@ -80,11 +92,26 @@ We will consider the investment successful if we get deposit increased for at le
 \begin{itemize}
     \item Requirements: historical stocks data for 16 years (15 years for modeling + 1 for evaluating real case scenario). The project duration is estimated to 2 months. Different time frames from minutes to months are needed for in-depth analysis of stocks behavior. The issue is that the Moscow Exchange requires people that are interested to profit from their data, need to contact the officials for negotiating commercial data use (\href{https://www.moex.com/a7156#:~:text=4.3.,by%20the%20Exchange%20and%20Users.}{User Agreement}) (\href{https://www.moex.com/a2193#:~:text=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%BD%D1%8B%D0%B9%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%20%D0%BA%20%D0%98%D0%A1%D0%A1,%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%BE%D0%BC%20%D0%BE%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%BB%D1%8F%D0%B5%D1%82%D1%81%D1%8F%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D1%82%D0%BE%D0%BA%D0%BE%D0%BB%D1%83%20http.&text=%D0%9D%D0%B0%20Python%20%D0%B8%20Visual%20Basic,NET.}{In Russian}).
     \item Assumptions: the main assumption is that chosen historical period is enough to model profitable investment strategy. Hidden assumption could be that no serious crisis will happen during evaluation year, however this is addressed by that fact that some crises are already included in the data.
-    \item Constraints: the constraints are relatively short period of time and restriction to only 249 stocks.
+    \item Constraints: The project is subject to several practical constraints. First, the timeline is limited to approximately two months, as defined in the project plan, which restricts the complexity of data processing, feature engineering, and model development. 
+
+    Budget is also a constraint, since the project requires human resources, computing equipment, data access, and future promotion costs. Therefore, the solution should remain economically justified relative to the expected business value.
+    
+    Legal constraints include restrictions on the use of MOEX data, which may require compliance with licensing agreements and exchange data usage policies. In addition, if the system is later applied to real clients, personal data processing and user profiling must comply with privacy regulations such as GDPR or similar data protection standards.
+    
+    Technical constraints arise from limited computational resources, restricted project duration, and the need to process large volumes of historical financial data within reasonable time limits.
 \end{itemize}
 
 \subsubsection{Risks and Contingencies}
-Since we have chosen already passed years for modeling and evaluation, no risks seem to happen. As for future work and investigations, crises of the stock market are main risks that have to be dealt with.
+
+Several risks may affect the successful completion and outcomes of the project.
+
+\textbf{Data risks:} The dataset may contain missing values, inconsistencies, or biases (e.g., survivorship bias or incomplete historical records). These issues can negatively impact model training and evaluation. To mitigate this risk, data quality analysis will be performed during the data understanding phase, and appropriate preprocessing techniques such as imputation, filtering, and validation against external sources will be applied.
+
+\textbf{Technical risks:} The developed models may fail to achieve the desired predictive performance or may overfit historical data, leading to poor generalization on unseen data. To address this, multiple modeling approaches will be tested, cross-validation techniques will be applied, and model performance will be continuously evaluated against defined success criteria.
+
+\textbf{Business risks:} The resulting investment strategy may not be adopted by end users due to lack of trust, insufficient interpretability, or misalignment with user expectations. To reduce this risk, emphasis will be placed on model interpretability and clear presentation of results, ensuring that recommendations are understandable and actionable for both analysts and investors.
+
+\textbf{External risks:} Unexpected market conditions, such as financial crises or extreme volatility, may invalidate patterns learned from historical data. As a contingency, risk management rules (e.g., stop-loss constraints) are incorporated, and the limitations of the model will be explicitly communicated.
 
 \subsubsection{Terminology}
 \begin{itemize}
@@ -93,16 +120,99 @@ Since we have chosen already passed years for modeling and evaluation, no risks 
 \end{itemize}
 
 \subsubsection{Costs and Benefits}
-The publicly available tariffs for sharing MOEX data are ranging from 15k to 25k RUB (source: \href{https://www.moex.com/ru/products/publicdata}{tariffs in Russian}), so let us assume we will use this for one month to get all the historical data. In opposite, the profit may be several percents of a customer deposit in a case of meeting the defined business success criteria. So, the benefits are expected to overtake costs significantly as business will grow.
+\textbf{Costs:} The economic feasibility of the project can be assessed by comparing the total implementation and promotion costs with the expected business benefits.
+
+The project cost consists of several components. First, labor costs are estimated using an average junior IT specialist salary of \$1000 per month. For a team of five members working for two months, the total labor cost is
+\[
+5 \times 1000 \times 2 = \$10{,}000.
+\]
+
+Second, infrastructure costs are estimated through laptop depreciation. Assuming that each team member uses a laptop costing \$2000 with a renewal period of four years, the monthly cost per laptop is
+\[
+2000 / 48 \approx \$41.7.
+\]
+For five laptops over two months, the total infrastructure cost is
+\[
+41.7 \times 5 \times 2 \approx \$417.
+\]
+
+Third, data acquisition costs are associated with MOEX market data access. Assuming an average cost of 20{,}000 RUB per month and an exchange rate of 1 USD = 80 RUB, the monthly cost is
+\[
+20000 / 80 = \$250.
+\]
+For two months, this gives
+\[
+250 \times 2 = \$500.
+\]
+
+Fourth, operational costs such as electricity, internet access, and auxiliary software usage are estimated at approximately \$100 per month for the whole team, resulting in
+\[
+100 \times 2 = \$200.
+\]
+
+In addition, promotion costs should be considered for the future deployment of the solution. Assuming a marketing campaign of 5 paid posts per day in different channels, with an average cost of \$10 per post, the daily marketing cost is
+\[
+5 \times 10 = \$50.
+\]
+For three months of promotion (approximately 90 days), the total marketing cost is
+\[
+50 \times 90 = \$4{,}500.
+\]
+
+Thus, the total estimated cost of the project and initial promotion stage is
+\[
+10{,}000 + 417 + 500 + 200 + 4{,}500 = \$15{,}617.
+\]
+
+\textbf{Benefits:} The expected benefits of the project arise from attracting investors to a strategy that aims to outperform inflation and traditional bank deposits. If the solution is adopted by clients, it can generate business value through increased customer engagement, higher trust in investment recommendations, and potential revenue from advisory or portfolio management services. Therefore, the project becomes economically justified if the resulting strategy attracts enough users or managed capital to compensate for the estimated total cost of \$15{,}617.
+
+The expected benefits of the project can be quantified by modeling potential revenue from providing investment recommendations. Let us assume that the business model is based on charging a commission of \textbf{5\%} from the positive return generated for each client.
+
+Assuming an average client investment of \$5,000 and a target return of 11.2\%, the expected profit per client over the six-month horizon is
+\[
+5000 \times 0.112 = \$560.
+\]
+The corresponding revenue for the business (5\% commission) is
+\[
+560 \times 0.05 = \$28 \text{ per client}.
+\]
+
+To cover the total project and promotion cost of \$15,617, the required number of clients is
+\[
+15617 / 28 \approx 558 \text{ clients}.
+\]
+
+Thus, the project reaches the break-even point when approximately \textbf{560 clients} adopt the strategy.
+
+If the number of clients exceeds this threshold, the project becomes profitable. For example, with 1000 clients, the expected revenue is
+\[
+1000 \times 28 = \$28{,}000,
+\]
+resulting in a net profit of
+\[
+28000 - 15617 = \$12{,}383.
+\]
+
+In terms of payback period, assuming a steady inflow of clients and that each client completes one investment cycle every six months, the project is expected to recover its initial costs within the first cycle if at least 560 clients are acquired. Otherwise, the payback period extends proportionally (e.g., approximately one year if only half of the required clients are reached in the first cycle).
+
+Therefore, the project becomes economically viable if it can attract a moderate number of users, demonstrating that even a relatively small client base can compensate for the initial investment and generate profit.
 
 
 \subsection{Determine Data Mining Goals}
 
 \subsubsection{Data Mining Goals}
-The goals of the data mining are to develop both interpretable and non-interpretable models that choose a bunch of stocks, which will grow.
+
+The business objective of achieving stable positive returns with controlled risk is translated into a data mining task focused on predicting stock performance over a six-month horizon.
+
+The primary data mining problem is defined as a \textbf{regression task}, where the goal is to predict the future return of a stock based on historical price data and relevant features. This can be formulated as a time series forecasting problem, where past observations are used to estimate future price movements.
+
+The output of the data mining process is a model that assigns a predicted return (or probability of profitability) to each stock, allowing the construction of an investment portfolio that aligns with the business objective.
 
 \subsubsection{Data Mining Success Criteria}
-The success criteria are that models will select stocks divivded into several comparable by proportions groups, and the trend will coincide with the selected equity portfolio. (?)
+
+The performance of the model will be evaluated using technical metrics appropriate for the defined problem types. For the regression task, the primary evaluation metric is \textbf{Mean Absolute Error (MAE)}, which measures the average deviation between predicted and actual returns. Lower MAE values indicate more accurate predictions.
+
+To ensure practical usability, the model must also satisfy interpretability requirements, allowing analysts to understand the key factors influencing predictions. This is important to support trust and adoption of the model in real-world decision-making.
 
 
 \subsection{Produce Project Plan}
