@@ -13,6 +13,6 @@
 We parsed the data from MOEX ourselves and stored it on Kaggle for convenience: [dataset link](https://www.kaggle.com/datasets/rinapetuhova/moex-2010-2026)
 
 ### Reporting materials:
-- `docs` folder includes `final_report.pdf` and `presentation.ppt`
+- `docs` folder includes `final_report.pdf` and `presentation.pdf`
 - `data_prep_and_eda` folder includes .ipynb file and plots related to Data Understanding and Data Preparation stages
 - `modeling` folder includes .ipynb files related to Modeling stage
